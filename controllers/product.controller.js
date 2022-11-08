@@ -2,6 +2,9 @@ const db = require('../models')
 const Product = db.products
 const Op = db.Sequelize.Op
 
+const multer = require('multer')
+const path = require('path')
+
 
 exports.create = (req, res) => {
     if (!req.body.title) {
@@ -12,9 +15,11 @@ exports.create = (req, res) => {
     }
 
     const product = {
+        //image: req.file.path,    //for multiple images write files insytaed of file
         title: req.body.title,
         description: req.body.description,
-        cost: req.body.cost
+        cost: req.body.cost,
+        published: req.body.published
     };
 
     Product.create(product)
@@ -27,6 +32,7 @@ exports.create = (req, res) => {
             });
         });
 }
+
 
 
 exports.findAll = (req, res) => {
@@ -131,3 +137,31 @@ exports.deleteAll = (req, res) => {
 }
 
 
+const storage = multer.diskStorage({
+    destination: (req,file,cb)=>{
+        cb(null, './../images')  
+    },
+    filename:(req,file,cb) =>{
+        cb(null,Date.now() + path.extname(file.originalname))    // 2/1/22.png
+    }
+})
+
+exports.upload = multer({
+    storage: storage,   //initilized at line 138
+    limits: {fileSize:'100000000'} , //6 zeros is 1kb
+    fileFilter:(req,file,cb) =>{
+        const fileTypes = /jpeg|png|jpg|gif/
+        const mimeType = fileTypes.test(file.mimetype)  //it will chk systems file mimetype and save it into mimeType const
+        const extname = fileTypes.test(path.extname(file.originalname))
+
+        if(mimeType && extname){
+            return cb(null,true)
+        }
+        cb('Give proper Format files')
+    }
+}).single('image')
+
+//for multiple images write .array('images',5) want tyo add 5 images
+
+
+//module.exports = uplaod

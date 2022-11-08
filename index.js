@@ -26,6 +26,10 @@ db.sequelize.sync()
 
 require('./routes/product.routes')(app)  //when we hit /product route on web it will goto productRoutes
 
+
+//statis images folder
+app.use('./../images',express.static('./../images'))
+
 const ports = process.env.PORT || 3000;
 app.listen(ports, () =>
     console.log('listeing on port no', { ports }));

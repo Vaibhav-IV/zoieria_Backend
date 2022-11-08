@@ -2,7 +2,7 @@ module.exports = app =>{
     const products = require('../controllers/product.controller')
     var router = require("express").Router()
 
-    router.post("/",products.create);
+    router.post("/",products.create)//products.upload
 
     router.get("/",products.findAll);
 
