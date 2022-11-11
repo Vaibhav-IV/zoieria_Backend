@@ -1,6 +1,9 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
+const userRouter = require('./routes/user.router')
 
 const app = express();
 
@@ -25,7 +28,8 @@ db.sequelize.sync()
 // });
 
 require('./routes/product.routes')(app)  //when we hit /product route on web it will goto productRoutes
-
+require('./routes/category.routes')(app)
+app.use("/api/users",userRouter)
 
 //statis images folder
 app.use('./../images',express.static('./../images'))

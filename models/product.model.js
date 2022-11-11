@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const category = require('./category.model')
 
 module.exports = (sequelize,Sequelize) => {
     const Product = sequelize.define("product",{
@@ -16,7 +17,26 @@ module.exports = (sequelize,Sequelize) => {
         },
         published:{
             type: DataTypes.BOOLEAN
+        },
+        categoryId:{
+            //fk in category table
+            type: DataTypes.INTEGER,
+            required: true,
+            references:{
+                model: "category",
+                key:"id"
+            }
+            //allowNull: false
         }
+
+
     });
+    
+    // Product.associate = (models) =>{
+    //     Product.belongsTo(category)
+    // }
+
+    
     return Product 
 }
+ 

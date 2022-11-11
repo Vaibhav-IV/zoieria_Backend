@@ -18,6 +18,18 @@ const db = {};
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
+
+
+
 db.products = require("./product.model")(sequelize,Sequelize)
+db.category = require("./category.model")(sequelize,Sequelize)
+//associations
+//category
+db.category.hasMany(db.products)
+
+// //products
+db.products.belongsTo(db.category,{foreignKey: 'categoryId'})
+
+
 
 module.exports = db;

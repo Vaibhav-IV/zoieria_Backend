@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op
 
 const multer = require('multer')
 const path = require('path')
+const { category } = require('../models')
 
 
 exports.create = (req, res) => {
@@ -19,12 +20,14 @@ exports.create = (req, res) => {
         title: req.body.title,
         description: req.body.description,
         cost: req.body.cost,
-        published: req.body.published
+        published: req.body.published,
+        categoryId: req.body.categoryId
     };
 
     Product.create(product)
         .then(data => {
             res.send(data);
+            console.log(data);
         })
         .catch(err => {
             res.status(500).send({
