@@ -1,10 +1,10 @@
 const db = require('../models');
 const Category = db.category
 const Op = db.Sequelize.Op
+const Product = db.products
 
-
-exports.create = (req,res) =>{
-    if(!req.body.title){
+exports.create = (req, res) => {
+    if (!req.body.title) {
         res.status(400).send({
             message: "Category cannot be empty"
         });
@@ -12,19 +12,19 @@ exports.create = (req,res) =>{
     }
 
     const category = {
-        title : req.body.title,
+        title: req.body.title,
         published: req.body.published
     };
 
     Category.create(category)
-    .then(data =>{
-        res.send(data);
-    })
-    .catch(err => {
-        res.status(500).send({
-            message: err.message || "Error occured while creating the Category"
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Error occured while creating the Category"
+            });
         });
-    });
 }
 
 

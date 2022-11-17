@@ -14,5 +14,7 @@ module.exports = app =>{
 
     router.delete('/',products.deleteAll)
 
+    router.get('/productCategory/:id',products.findByCategory)
+
     app.use('/admin/products',router)
 }

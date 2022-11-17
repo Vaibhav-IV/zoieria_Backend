@@ -53,6 +53,16 @@ exports.findAll = (req, res) => {
         });
 }
 
+exports.findByCategory =(req,res) =>{
+    const id = req.params.id;
+    Product.findAll({
+         where:{categoryId : id},
+    })
+    .then(data => {
+        res.send(data)
+    })
+
+}
 
 exports.findOne = (req, res) => {
     const id = req.params.id;
