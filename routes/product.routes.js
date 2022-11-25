@@ -6,6 +6,8 @@ module.exports = app =>{
 
     router.get("/",products.findAll);
 
+    router.get("/search/:id",products.findAllSearch);
+
     router.get('/:id',products.findOne)
 
     router.put('/:id',products.update)
@@ -15,6 +17,10 @@ module.exports = app =>{
     router.delete('/',products.deleteAll)
 
     router.get('/productCategory/:id',products.findByCategory)
+
+    router.get('/productCategory/related/:id',products.getRelatedProducts)
+
+    router.get('/count/productCount',products.getCount)
 
     app.use('/admin/products',router)
 }

@@ -76,12 +76,17 @@ exports.signup = (req, res) => {
         var authorities = [];
         user.getRoles().then(roles => {
           for (let i = 0; i < roles.length; i++) {
-            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+            authorities.push(roles[i].name.toUpperCase());
           }
           res.status(200).send({
             id: user.id,
             username: user.username,
             email_id: user.email_id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            gender: user.gender,
+            address:user.address,
+            contact_number:user.contact_number,
             roles: authorities,
             accessToken: token
           });

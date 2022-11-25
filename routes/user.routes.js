@@ -24,4 +24,6 @@ module.exports = function (app) {
         [checkjwt.verifyToken, checkjwt.isAdmin],
         controller.adminBoard
     );
+
+
 };

@@ -36,13 +36,11 @@ exports.create = (req, res) => {
         });
 }
 
-
-
 exports.findAll = (req, res) => {
-    const title = req.body.title;
+    const title = req.params.id;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-    Product.findAll({ where: condition })
+    Product.findAll({ where: condition  })
         .then(data => {
             res.send(data)
         })
@@ -53,15 +51,53 @@ exports.findAll = (req, res) => {
         });
 }
 
-exports.findByCategory =(req,res) =>{
+
+exports.findAllSearch = (req, res) => {
+    const title = req.params.id;
+    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+
+    Product.findAll({ where: condition  })
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "error occured while retriving the products"
+            });
+        });
+}
+
+exports.findByCategory = (req, res) => {
     const id = req.params.id;
     Product.findAll({
-         where:{categoryId : id},
+        where: { categoryId: id },
     })
-    .then(data => {
-        res.send(data)
-    })
+        .then(data => {
+            res.send(data)
+        })
+}
 
+exports.getRelatedProducts = (req, res) => {
+    const id = req.params.id;
+    Product.findAll({
+        where: { categoryId: id },
+        limit: 4
+    })
+        .then(data => {
+            res.send(data)
+        })
+}
+
+exports.getCount = async (req, res) => {
+
+    const count = Product.count()
+    const catCount = category.count()
+    count.then(data =>{
+       return console.log(data);
+    })
+    catCount.then(data=>{
+        return console.log(data);
+    })
 }
 
 exports.findOne = (req, res) => {
@@ -151,24 +187,24 @@ exports.deleteAll = (req, res) => {
 
 
 const storage = multer.diskStorage({
-    destination: (req,file,cb)=>{
-        cb(null, './../images')  
+    destination: (req, file, cb) => {
+        cb(null, './../images')
     },
-    filename:(req,file,cb) =>{
-        cb(null,Date.now() + path.extname(file.originalname))    // 2/1/22.png
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))    // 2/1/22.png
     }
 })
 
 exports.upload = multer({
     storage: storage,   //initilized at line 138
-    limits: {fileSize:'100000000'} , //6 zeros is 1kb
-    fileFilter:(req,file,cb) =>{
+    limits: { fileSize: '100000000' }, //6 zeros is 1kb
+    fileFilter: (req, file, cb) => {
         const fileTypes = /jpeg|png|jpg|gif/
         const mimeType = fileTypes.test(file.mimetype)  //it will chk systems file mimetype and save it into mimeType const
         const extname = fileTypes.test(path.extname(file.originalname))
 
-        if(mimeType && extname){
-            return cb(null,true)
+        if (mimeType && extname) {
+            return cb(null, true)
         }
         cb('Give proper Format files')
     }
