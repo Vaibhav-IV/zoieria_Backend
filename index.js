@@ -24,10 +24,10 @@ db.sequelize.sync()
         console.log("falied to sync db using sequelize", + err.message);
     })
 
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log("Drop and re-sync db.");
-//        initial();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
+       initial();
+});
 
 const Role = db.role;
 
@@ -50,6 +50,10 @@ require('./routes/user.routes')(app);
 require('./routes/product.routes')(app)  //when we hit /product route on web it will goto productRoutes
 require('./routes/category.routes')(app)
 //app.use("/api/users", userRouter)
+
+require('./routes/shop.routes')(app) //for order and cart
+require('./routes/image.routes')(app) //for image
+
 
 //statis images folder
 app.use('./../images', express.static('./../images'))

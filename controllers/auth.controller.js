@@ -35,12 +35,21 @@ exports.signup = (req, res) => {
             });
           });
         } else {
-          // user role = 1
+          // by deafault user
           user.setRoles([1]).then(() => {
             res.send({ message: "User was registered successfully!" });
           });
         }
+        const id = user.id;
+        return user;
       })
+      
+      .then(user => {
+        return user.createCart(),user.createOrder();
+      })
+
+
+
       .catch(err => {
         res.status(500).send({ message: err.message });
       });
