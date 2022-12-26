@@ -11,6 +11,9 @@ const OrderItem = db.orderItem
 
 let cartProducts = [];
 let orderProducts = [];
+
+let cartProductsQuantity = [];
+
 exports.getCart = (req, res) => {
     const id = req.params.id;
 
@@ -50,15 +53,17 @@ exports.getCartItems = (req, res) => {
             }
             CartItem.findAll({
                 where: { cartId: cart.id },
-                attributes: ['productId']
+                attributes: ['productId', 'quantity']
             })
                 .then(data => {
                     for (let i = 0; i < data.length; i++) {
                         //console.log(data[i].productId);
                         cartProducts.push(data[i].productId);
+                        cartProductsQuantity.push(data[i].quantity);
                     }
 
                     console.log("59", cartProducts);
+                    console.log("dahciuac",cartProductsQuantity);
                     //res.send(data);
                 })
                 .then(data => {
@@ -67,14 +72,16 @@ exports.getCartItems = (req, res) => {
 
                     Product.findAll({
                         where: {
-                            id: cartProducts},
-                            attributes: ['id','title','description','cost','categoryId']
+                            id: cartProducts
+                        },
+                        attributes: ['id', 'title', 'description', 'cost', 'categoryId','imageTitle']
                         
                     })
 
                         .then(data => {
                             if (data) {
-                                res.send(data)
+                                res.send({data,
+                                     quantity: cartProductsQuantity})
                             } else {
                                 res.status(404).send({
                                     message: `Cannot find the product with id= ${id}`
@@ -96,7 +103,8 @@ exports.getCartItems = (req, res) => {
                     });
                 });
         })
-        cartProducts.length=0;
+    cartProducts.length = 0;
+    cartProductsQuantity.length = 0
 }
 
 
@@ -214,9 +222,10 @@ exports.getOrderItems = (req, res) => {
 
                     Product.findAll({
                         where: {
-                            id: orderProducts},
-                            attributes: ['id','title','description','cost','categoryId']
-                        
+                            id: orderProducts
+                        },
+                        attributes: ['id', 'title', 'description', 'cost', 'categoryId']
+
                     })
 
                         .then(data => {
@@ -243,7 +252,7 @@ exports.getOrderItems = (req, res) => {
                     });
                 });
         })
-        orderProducts.length=0;
+    orderProducts.length = 0;
 }
 
 

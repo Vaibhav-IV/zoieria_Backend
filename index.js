@@ -24,10 +24,10 @@ db.sequelize.sync()
         console.log("falied to sync db using sequelize", + err.message);
     })
 
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-       initial();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Drop and re-sync db.");
+//        initial();
+// });
 
 const Role = db.role;
 

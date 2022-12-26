@@ -15,9 +15,24 @@ module.exports = (sequelize,Sequelize) => {
         cost:{
             type: DataTypes.INTEGER
         },
+        MRP:{
+            type: DataTypes.INTEGER
+        },
         published:{
             type: DataTypes.BOOLEAN
         },
+        color:{
+            type: DataTypes.STRING
+        },
+        size:{
+            type: DataTypes.STRING
+        },
+        material:{
+            type: DataTypes.STRING
+        },
+        imageTitle:{
+            type: DataTypes.STRING
+        }
         // categoryId:{
         //     //fk in category table
         //     type: DataTypes.INTEGER,
