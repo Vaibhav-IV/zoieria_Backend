@@ -20,11 +20,11 @@ exports.create = (req, res) => {
         title: req.body.title,
         description: req.body.description,
         cost: req.body.cost,
-        MRP: req.body.MRP,
+        mrp: req.body.mrp,
         published: req.body.published,
         categoryId: req.body.categoryId,
         color: req.body.color,
-        size: req.body.color,
+        size: req.body.size,
         material: req.body.material,
         imageTitle: req.body.imageTitle
     };
@@ -75,6 +75,16 @@ exports.findAllSearch = (req, res) => {
 exports.findByCategory = (req, res) => {
     const id = req.params.id;
     Product.findAll({
+        where: { categoryId: id },
+    })
+        .then(data => {
+            res.send(data)
+        })
+}
+
+exports.getWeddingCatProducts =(req,res) =>{
+    const id = 1
+        Product.findAll({
         where: { categoryId: id },
     })
         .then(data => {

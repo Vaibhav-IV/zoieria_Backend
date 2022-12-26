@@ -10,6 +10,8 @@ module.exports = app =>{
 
     router.get('/:id',products.findOne)
 
+    router.get('/cat/wedding',products.getWeddingCatProducts)
+
     router.put('/:id',products.update)
 
     router.delete('/:id',products.delete)

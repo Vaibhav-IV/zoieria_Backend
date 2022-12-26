@@ -15,7 +15,7 @@ module.exports = (sequelize,Sequelize) => {
         cost:{
             type: DataTypes.INTEGER
         },
-        MRP:{
+        mrp:{
             type: DataTypes.INTEGER
         },
         published:{
